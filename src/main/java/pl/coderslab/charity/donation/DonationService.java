@@ -18,4 +18,8 @@ public class DonationService {
             return 0;
         }
     }
+
+    public int getNumberOfDonations() {
+        return donationRepository.getNumberOfDonations();
+    }
 }
