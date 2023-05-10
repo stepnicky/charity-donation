@@ -10,4 +10,12 @@ public class DonationService {
     public DonationService(DonationRepository donationRepository) {
         this.donationRepository = donationRepository;
     }
+
+    public int getSumOfDonatedBags() {
+        try {
+            return donationRepository.getOverallQuantity();
+        } catch (NullPointerException e) {
+            return 0;
+        }
+    }
 }
