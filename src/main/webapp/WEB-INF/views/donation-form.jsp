@@ -106,7 +106,7 @@
 
           <!-- STEP 4 -->
           <div data-step="4">
-            <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
+            <h3>Podaj adres oraz termin odbioru rzeczy przez kuriera:</h3>
 
             <div class="form-section form-section--columns">
               <div class="form-section--column">
@@ -166,37 +166,35 @@
                 <ul>
                   <li>
                     <span class="icon icon-bag"></span>
-                    <span class="summary--text"
-                    >4 worki ubrań w dobrym stanie dla dzieci</span
-                    >
+                    <span class="summary--text content-quantity">
+                    </span>
                   </li>
 
                   <li>
                     <span class="icon icon-hand"></span>
-                    <span class="summary--text"
-                    >Dla fundacji "Mam marzenie" w Warszawie</span
-                    >
+                    <span class="summary--text institution">
+                    </span>
                   </li>
                 </ul>
               </div>
 
               <div class="form-section form-section--columns">
-                <div class="form-section--column">
+                <div class="form-section--column pickup-address">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li>Prosta 51</li>
-                    <li>Warszawa</li>
-                    <li>99-098</li>
-                    <li>123 456 789</li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
                   </ul>
                 </div>
 
-                <div class="form-section--column">
+                <div class="form-section--column pickup-time">
                   <h4>Termin odbioru:</h4>
                   <ul>
-                    <li>13/12/2018</li>
-                    <li>15:40</li>
-                    <li>Brak uwag</li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
                   </ul>
                 </div>
               </div>
@@ -213,5 +211,6 @@
     <%@ include file="commons/footer.jsp"%>
 
     <script src="<c:url value="/resources/js/app.js"/>"></script>
+    <script src="<c:url value="/resources/js/summary.js"/>"></script>
   </body>
 </html>
