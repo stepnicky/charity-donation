@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.charity.category.Category;
 import pl.coderslab.charity.category.CategoryService;
+import pl.coderslab.charity.institution.Institution;
 import pl.coderslab.charity.institution.InstitutionService;
 
 import java.util.List;
@@ -28,7 +29,9 @@ public class DonationController {
     @GetMapping("/donate")
     public String donationForm(Model model) {
         List<Category> categories = categoryService.getAllCategories();
+        List<Institution> institutions = institutionService.getAllInstitutions();
         model.addAttribute("categories", categories);
+        model.addAttribute("institutions", institutions);
         model.addAttribute("donation", new Donation());
         return "donation-form";
     }

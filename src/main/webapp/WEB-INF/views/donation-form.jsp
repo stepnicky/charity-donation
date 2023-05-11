@@ -81,34 +81,19 @@
           <!-- STEP 4 -->
           <div data-step="3">
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="radio" name="organization" value="old" />
-                <span class="checkbox radio"></span>
-                <span class="description">
-                    <div class="title">Fundacja “Bez domu”</div>
+            <c:forEach items="${institutions}" var="institution">
+              <div class="form-group">
+                <label>
+                  <form:radiobutton path="institution" value="institution"/>
+                  <span class="description">
+                    <div class="title">${institution.name}</div>
                     <div class="subtitle">
-                      Cel i misja: Pomoc dla osób nie posiadających miejsca
-                      zamieszkania
+                      ${institution.description}
                     </div>
                   </span>
-              </label>
-            </div>
-
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="radio" name="organization" value="old" />
-                <span class="checkbox radio"></span>
-                <span class="description">
-                    <div class="title">Fundacja “Dla dzieci"</div>
-                    <div class="subtitle">
-                      Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji
-                      życiowej.
-                    </div>
-                  </span>
-              </label>
-            </div>
+                </label>
+              </div>
+            </c:forEach>
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
