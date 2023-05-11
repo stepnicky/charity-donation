@@ -43,12 +43,14 @@
             <h3>Zaznacz co chcesz oddać:</h3>
 
             <c:forEach items="${categories}" var="category">
-              <div class="form-group">
+              <div class="form-group form-group--checkbox">
                 <label>
-                  <form:checkbox
-                          path="categories"
-                          value="${category}"
+                  <input
+                          type="checkbox"
+                          name="categories"
+                          value="${category.id}"
                   />
+                  <span class="checkbox"></span>
                   <span class="description">${category.name}</span>
                 </label>
               </div>
@@ -66,7 +68,7 @@
             <div class="form-group form-group--inline">
               <label>
                 Liczba 60l worków:
-                <form:input type="number" path="quantity" step="1" min="1" />
+                <input type="number" name="quantity" step="1" min="1" />
               </label>
             </div>
 
@@ -78,13 +80,14 @@
 
 
 
-          <!-- STEP 4 -->
+          <!-- STEP 3 -->
           <div data-step="3">
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
             <c:forEach items="${institutions}" var="institution">
-              <div class="form-group">
+              <div class="form-group form-group--checkbox">
                 <label>
-                  <form:radiobutton path="institution" value="institution"/>
+                  <input type="radio" name="institution" value="${institution.id}"/>
+                  <span class="checkbox radio"></span>
                   <span class="description">
                     <div class="title">${institution.name}</div>
                     <div class="subtitle">
@@ -101,7 +104,7 @@
             </div>
           </div>
 
-          <!-- STEP 5 -->
+          <!-- STEP 4 -->
           <div data-step="4">
             <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
 
@@ -153,7 +156,7 @@
             </div>
           </div>
 
-          <!-- STEP 6 -->
+          <!-- STEP 5 -->
           <div data-step="5">
             <h3>Podsumowanie Twojej darowizny</h3>
 
