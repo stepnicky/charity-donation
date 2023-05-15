@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>"/>
   </head>
   <body>
-    <%@ include file="commons/header.jsp"%>
+    <%@ include file="../commons/header.jsp"%>
     <section class="form--steps">
       <div class="form--steps-instructions">
         <div class="form--steps-container">
@@ -208,7 +208,7 @@
         </form:form>
       </div>
     </section>
-    <%@ include file="commons/footer.jsp"%>
+    <%@ include file="../commons/footer.jsp"%>
 
     <script src="<c:url value="/resources/js/app.js"/>"></script>
     <script src="<c:url value="/resources/js/summary.js"/>"></script>

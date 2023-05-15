@@ -33,7 +33,7 @@ public class DonationController {
         model.addAttribute("categories", categories);
         model.addAttribute("institutions", institutions);
         model.addAttribute("donation", new Donation());
-        return "donation-form";
+        return "donation/donation-form";
     }
 
     @PostMapping("/donate")
@@ -44,6 +44,6 @@ public class DonationController {
 
     @GetMapping("/confirmation")
     public String formConfirmation() {
-        return "form-confirmation";
+        return "donation/form-confirmation";
     }
 }
