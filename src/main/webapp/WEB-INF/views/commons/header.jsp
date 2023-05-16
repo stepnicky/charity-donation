@@ -1,9 +1,30 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <header class="header--main-page">
     <nav class="container container--70">
         <ul class="nav--actions">
-            <li><a href="<c:url value="/login"/>" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="<c:url value="/register"/>" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            <sec:authorize access="isAnonymous()">
+                <li>
+                    <a href="<c:url value="/login"/>" class="btn btn--small btn--without-border">
+                        Zaloguj
+                    </a>
+                </li>
+                <li>
+                    <a href="<c:url value="/register"/>" class="btn btn--small btn--highlighted">
+                        Załóż konto
+                    </a>
+                </li>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <li class="logged-user">
+                    Witaj ${userName}
+                    <ul class="dropdown">
+                        <li><a href="#">Profil</a></li>
+                        <li><a href="#">Moje zbiórki</a></li>
+                        <li><a href="#">Wyloguj</a></li>
+                    </ul>
+                </li>
+            </sec:authorize>
         </ul>
 
         <ul>

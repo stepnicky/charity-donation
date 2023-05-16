@@ -1,5 +1,6 @@
 package pl.coderslab.charity.user;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -57,5 +58,16 @@ public class UserController {
         model.addAttribute("successMessage", "Użytkownik został pomyślnie zarejestrowany");
         model.addAttribute("user", new User());
         return "user/registration-form";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "user/login";
+    }
+
+    @GetMapping("/user")
+    public String userPage(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
+        model.addAttribute("userName", currentUser.getUser().getFirstName());
+        return "index";
     }
 }
