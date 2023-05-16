@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.charity.category.Category;
 import pl.coderslab.charity.institution.Institution;
+import pl.coderslab.charity.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,6 +20,8 @@ public class Donation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    private User user;
     private Integer quantity;
     @ManyToMany
     private List<Category> categories;

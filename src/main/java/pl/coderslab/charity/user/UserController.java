@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.coderslab.charity.donation.DonationService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -17,11 +18,14 @@ public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final DonationService donationService;
 
     public UserController(UserService userService,
-                          RoleService roleService) {
+                          RoleService roleService,
+                          DonationService donationService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.donationService = donationService;
     }
 
     @GetMapping("/register")
@@ -67,7 +71,12 @@ public class UserController {
 
     @GetMapping("/user")
     public String userPage(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
-        model.addAttribute("userName", currentUser.getUser().getFirstName());
+        User user = currentUser.getUser();
+        int numOfDonations = donationService.getNumberOfDonationsByUser(user);
+        int sumOfBags = donationService.getSumOfDonatedBagsByUser(user);
+        model.addAttribute("numOfDonations", numOfDonations);
+        model.addAttribute("sumOfBags", sumOfBags);
+        model.addAttribute("userName", user.getFirstName());
         return "index";
     }
 }

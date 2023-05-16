@@ -1,5 +1,6 @@
 package pl.coderslab.charity.donation;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import pl.coderslab.charity.category.Category;
 import pl.coderslab.charity.category.CategoryService;
 import pl.coderslab.charity.institution.Institution;
 import pl.coderslab.charity.institution.InstitutionService;
+import pl.coderslab.charity.user.CurrentUser;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class DonationController {
         this.institutionService = institutionService;
     }
 
-    @GetMapping("/donate")
+    @GetMapping("/user/donate")
     public String donationForm(Model model) {
         List<Category> categories = categoryService.getAllCategories();
         List<Institution> institutions = institutionService.getAllInstitutions();
@@ -36,13 +38,15 @@ public class DonationController {
         return "donation/donation-form";
     }
 
-    @PostMapping("/donate")
-    public String processDonationForm(Donation donation) {
+    @PostMapping("/user/donate")
+    public String processDonationForm(@AuthenticationPrincipal CurrentUser currentUser,
+                                      Donation donation) {
+        donation.setUser(currentUser.getUser());
         donationService.createDonation(donation);
-        return "redirect:/confirmation";
+        return "redirect:/user/confirmation";
     }
 
-    @GetMapping("/confirmation")
+    @GetMapping("/user/confirmation")
     public String formConfirmation() {
         return "donation/form-confirmation";
     }

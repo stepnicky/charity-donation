@@ -58,8 +58,12 @@
             <p>kurier przyjedzie w dogodnym terminie</p>
         </div>
     </div>
-
-    <a href="<c:url value="/register"/>" class="btn btn--large">Załóż konto</a>
+    <sec:authorize access="isAnonymous()">
+        <a href="<c:url value="/register"/>" class="btn btn--large">Załóż konto</a>
+    </sec:authorize>
+    <sec:authorize access="isAuthenticated()">
+        <a href="<c:url value="/user/donate"/>" class="btn btn--large">Przekaż datek</a>
+    </sec:authorize>
 </section>
 
 <section class="about-us">
