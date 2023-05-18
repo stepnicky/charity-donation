@@ -20,4 +20,12 @@ public class InstitutionService {
     public void createInstitution(Institution institution) {
         institutionRepository.save(institution);
     }
+
+    public Institution getInstitutionById(Long id) {
+        return institutionRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+
+    public void updateInstitution(Institution institution) {
+        institutionRepository.save(institution);
+    }
 }
