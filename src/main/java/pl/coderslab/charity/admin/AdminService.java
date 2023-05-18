@@ -23,4 +23,8 @@ public class AdminService {
         Role adminRole = roleService.getRoleByRole("ROLE_ADMIN");
         return adminRepository.getAllByRolesContaining(adminRole);
     }
+
+    public void updateAdmin(User admin) {
+        adminRepository.save(admin);
+    }
 }

@@ -88,4 +88,10 @@ public class AdminController {
         model.addAttribute("admin", admin);
         return "admin/administrator/edit";
     }
+
+    @PostMapping("/administrator/{id}/edit")
+    public String editAdmin(User admin) {
+        adminService.updateAdmin(admin);
+        return "redirect:/admin/administrator/list";
+    }
 }

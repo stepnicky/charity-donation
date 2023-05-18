@@ -13,8 +13,7 @@
     </div>
     <div class="form-group">
       <label for="email">Email</label>
-      <textarea name="email" type="email" id="email"
-                class="form-control" placeholder="Adres email">${admin.email}</textarea>
+      <input name="email" type="email" id="email" class="form-control" placeholder="Adres email" value="${admin.email}"/>
     </div>
     <button type="submit" class="btn btn-primary">Zapisz</button>
   </fieldset>
