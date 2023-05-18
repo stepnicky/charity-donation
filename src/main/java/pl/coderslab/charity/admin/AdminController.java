@@ -17,9 +17,12 @@ import java.util.List;
 public class AdminController {
 
     private final InstitutionService institutionService;
+    private final AdminService adminService;
 
-    public AdminController(InstitutionService institutionService) {
+    public AdminController(InstitutionService institutionService,
+                           AdminService adminService) {
         this.institutionService = institutionService;
+        this.adminService = adminService;
     }
 
     @GetMapping("")
@@ -66,5 +69,12 @@ public class AdminController {
     public String deleteInstitution(@PathVariable Long id) {
         institutionService.deleteInstitutionById(id);
         return "redirect:/admin/institution/list";
+    }
+
+    @GetMapping("/administrator/list")
+    public String adminList(Model model) {
+        List<User> admins = adminService.getAllAdmins();
+        model.addAttribute("administrators", admins);
+        return "admin/administrator/list";
     }
 }
