@@ -94,4 +94,23 @@ public class AdminController {
         adminService.updateAdmin(admin);
         return "redirect:/admin/administrator/list";
     }
+
+    @GetMapping("/administrator/user-list")
+    public String userList(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "admin/administrator/user-list";
+    }
+
+    @GetMapping("/administrator/{id}/delete")
+    public String deleteAdminRights(@PathVariable Long id) {
+        userService.deleteAdminRights(id);
+        return "redirect:/admin/administrator/user-list";
+    }
+
+    @GetMapping("/administrator/{id}/add")
+    public String addAdminRights(@PathVariable Long id) {
+        userService.addAdminRights(id);
+        return "redirect:/admin/administrator/user-list";
+    }
 }

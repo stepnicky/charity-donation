@@ -39,8 +39,8 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-          <a href="<c:url value="/admin/administrator/add"/>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-duotone fa-user-plus text-white-50"></i> Dodaj administratora</a>
+          <a href="<c:url value="/admin/administrator/user-list"/>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-duotone fa-user-plus text-white-50"></i> Nadaj/odbierz uprawnienia administratora</a>
         </div>
 
         <div class="card shadow mb-4">
@@ -78,7 +78,6 @@
                         ${admin.email}
                     </div>
                     <div class="col-2">
-                      <a class="delete" href="<c:url value="/admin/administrator/${admin.id}/delete"/>" data-toggle="modal" data-target="#staticBackdrop">Usuń </a>
                       <a href="<c:url value="/admin/administrator/${admin.id}/edit"/>">Edytuj </a>
                     </div>
                   </div>
@@ -106,26 +105,6 @@
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>
 </a>
-
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Jesteś pewien?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Czy na pewno chcesz usunąć fundację?
-      </div>
-      <div id="modalFooter" class="modal-footer">
-        <a href="" type="button" class="confirm-delete btn btn-primary">Tak</a>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Bootstrap core JavaScript-->
 <script src="<c:url value="/resources/vendor/jquery/jquery.min.js"/>"></script>
