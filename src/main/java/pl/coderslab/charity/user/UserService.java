@@ -23,4 +23,8 @@ public class UserService {
     public User getUserByEmail(String email) {
         return userRepository.getByEmail(email);
     }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
 }

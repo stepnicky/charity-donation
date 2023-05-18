@@ -39,13 +39,13 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-          <a href="<c:url value="/admin/institution/add"/>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-duotone fa-user-plus text-white-50"></i> Dodaj fundację</a>
+          <a href="<c:url value="/admin/administrator/add"/>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-duotone fa-user-plus text-white-50"></i> Dodaj administratora</a>
         </div>
 
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Lista fundacji</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Lista administratorów</h6>
           </div>
           <div class="card-body">
             <ul class="list-group list-group-flush">

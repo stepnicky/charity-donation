@@ -8,6 +8,7 @@ import pl.coderslab.charity.institution.Institution;
 import pl.coderslab.charity.institution.InstitutionService;
 import pl.coderslab.charity.user.CurrentUser;
 import pl.coderslab.charity.user.User;
+import pl.coderslab.charity.user.UserService;
 
 import java.util.List;
 
@@ -18,11 +19,14 @@ public class AdminController {
 
     private final InstitutionService institutionService;
     private final AdminService adminService;
+    private final UserService userService;
 
     public AdminController(InstitutionService institutionService,
-                           AdminService adminService) {
+                           AdminService adminService,
+                           UserService userService) {
         this.institutionService = institutionService;
         this.adminService = adminService;
+        this.userService = userService;
     }
 
     @GetMapping("")
@@ -76,5 +80,12 @@ public class AdminController {
         List<User> admins = adminService.getAllAdmins();
         model.addAttribute("administrators", admins);
         return "admin/administrator/list";
+    }
+
+    @GetMapping("/administrator/{id}/edit")
+    public String editAdminForm(@PathVariable Long id, Model model) {
+        User admin = userService.getUserById(id);
+        model.addAttribute("admin", admin);
+        return "admin/administrator/edit";
     }
 }
