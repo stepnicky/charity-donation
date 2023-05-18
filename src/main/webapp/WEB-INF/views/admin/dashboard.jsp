@@ -23,7 +23,7 @@
   <!-- Page Wrapper -->
   <div id="wrapper">
 
-    <%@ include file="sidebar.jsp"%>
+    <%@ include file="commons/sidebar.jsp"%>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -31,7 +31,7 @@
       <!-- Main Content -->
       <div id="content">
 
-        <%@ include file="topbar.jsp"%>
+        <%@ include file="commons/topbar.jsp"%>
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
@@ -45,7 +45,7 @@
       </div>
       <!-- End of Main Content -->
 
-      <%@ include file="footer.jsp"%>
+      <%@ include file="commons/footer.jsp"%>
 
     </div>
     <!-- End of Content Wrapper -->

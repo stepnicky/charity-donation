@@ -23,7 +23,7 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-  <%@ include file="sidebar.jsp"%>
+  <%@ include file="../commons/sidebar.jsp"%>
 
   <!-- Content Wrapper -->
   <div id="content-wrapper" class="d-flex flex-column">
@@ -31,7 +31,7 @@
     <!-- Main Content -->
     <div id="content">
 
-      <%@ include file="topbar.jsp"%>
+      <%@ include file="../commons/topbar.jsp"%>
 
       <!-- Begin Page Content -->
       <div class="container-fluid">
@@ -39,52 +39,16 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-          <a href="/institution/add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-duotone fa-user-plus text-white-50"></i> Dodaj fundację</a>
+          <a href="<c:url value="/admin/institution/list"/>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-solid fa-list text-white-50"></i> Lista fundacji</a>
         </div>
 
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Lista fundacji</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Dodaj fundację</h6>
           </div>
           <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <div class="row">
-                  <div class="col-1">
-                    <strong>id</strong>
-                  </div>
-                  <div class="col-4">
-                    <strong>Nazwa użytkownika</strong>
-                  </div>
-                  <div class="col-5">
-                    <strong>Opis</strong>
-                  </div>
-                  <div class="col-2">
-                    <strong>Akcja</strong>
-                  </div>
-                </div>
-              </li>
-              <c:forEach items="${institutions}" var="institution">
-                <li class="list-group-item">
-                  <div class="row">
-                    <div class="col-1">
-                        ${institution.id}
-                    </div>
-                    <div class="col-4">
-                        ${institution.name}
-                    </div>
-                    <div class="col-5">
-                        ${institution.description}
-                    </div>
-                    <div class="col-2">
-                      <a id="delete" href="<c:url value="/institution/${institution.id}/delete"/>" data-toggle="modal" data-target="#staticBackdrop">Usuń </a>
-                      <a href="<c:url value="/institution/${institution.id}/edit"/>">Edytuj </a>
-                    </div>
-                  </div>
-                </li>
-              </c:forEach>
-            </ul>
+            <%@include file="form.jsp"%>
           </div>
         </div>
 
@@ -94,7 +58,7 @@
     </div>
     <!-- End of Main Content -->
 
-    <%@ include file="footer.jsp"%>
+    <%@ include file="../commons/footer.jsp"%>
 
   </div>
   <!-- End of Content Wrapper -->

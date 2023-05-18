@@ -36,6 +36,12 @@ public class AdminController {
     public String institutionList(Model model) {
         List<Institution> institutions = institutionService.getAllInstitutions();
         model.addAttribute("institutions", institutions);
-        return "admin/institution-list";
+        return "admin/institution/list";
+    }
+
+    @GetMapping("/institution/add")
+    public String addInstitutionForm(Model model) {
+        model.addAttribute("institution", new Institution());
+        return "admin/institution/add";
     }
 }
