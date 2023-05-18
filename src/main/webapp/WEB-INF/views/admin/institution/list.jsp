@@ -78,7 +78,7 @@
                         ${institution.description}
                     </div>
                     <div class="col-2">
-                      <a id="delete" href="<c:url value="/admin/institution/${institution.id}/delete"/>" data-toggle="modal" data-target="#staticBackdrop">Usuń </a>
+                      <a class="delete" href="<c:url value="/admin/institution/${institution.id}/delete"/>" data-toggle="modal" data-target="#staticBackdrop">Usuń </a>
                       <a href="<c:url value="/admin/institution/${institution.id}/edit"/>">Edytuj </a>
                     </div>
                   </div>
@@ -107,21 +107,21 @@
   <i class="fas fa-angle-up"></i>
 </a>
 
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
+        <h5 class="modal-title" id="staticBackdropLabel">Jesteś pewien?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <a class="btn btn-primary" href="<c:url value="/logout"/>">Logout</a>
+      <div class="modal-body">
+        Czy na pewno chcesz usunąć fundację?
+      </div>
+      <div id="modalFooter" class="modal-footer">
+        <a href="" type="button" class="confirm-delete btn btn-primary">Tak</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
       </div>
     </div>
   </div>
@@ -136,6 +136,9 @@
 
 <!-- Custom scripts for all pages-->
 <script src="<c:url value="/resources/js/sb-admin-2.min.js"/>"></script>
+
+<%-- Custom script for bootstrap modal service --%>
+<script src="<c:url value="/resources/js/confirm-delete.js"/>"></script>
 
 </body>
 </html>

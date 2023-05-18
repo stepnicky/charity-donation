@@ -28,4 +28,8 @@ public class InstitutionService {
     public void updateInstitution(Institution institution) {
         institutionRepository.save(institution);
     }
+
+    public void deleteInstitutionById(Long id) {
+        institutionRepository.deleteById(id);
+    }
 }

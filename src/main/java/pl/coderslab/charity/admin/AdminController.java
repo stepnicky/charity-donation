@@ -61,4 +61,10 @@ public class AdminController {
         institutionService.updateInstitution(institution);
         return "redirect:/admin/institution/list";
     }
+
+    @GetMapping("/institution/{id}/delete")
+    public String deleteInstitution(@PathVariable Long id) {
+        institutionService.deleteInstitutionById(id);
+        return "redirect:/admin/institution/list";
+    }
 }
