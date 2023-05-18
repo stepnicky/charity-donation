@@ -62,7 +62,7 @@
         <a href="<c:url value="/register"/>" class="btn btn--large">Załóż konto</a>
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
-        <a href="<c:url value="/user/donate"/>" class="btn btn--large">Przekaż datek</a>
+        <a href="<c:url value="/user/donate"/>" class="btn btn--large">Oddaj rzeczy</a>
     </sec:authorize>
 </section>
 
