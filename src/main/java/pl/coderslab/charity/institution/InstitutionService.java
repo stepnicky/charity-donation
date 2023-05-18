@@ -16,4 +16,8 @@ public class InstitutionService {
     public List<Institution> getAllInstitutions() {
         return institutionRepository.findAll();
     }
+
+    public void createInstitution(Institution institution) {
+        institutionRepository.save(institution);
+    }
 }
