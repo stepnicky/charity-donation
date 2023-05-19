@@ -141,4 +141,10 @@ public class AdminController {
         userService.updateUser(user);
         return "redirect:/admin/user/list";
     }
+
+    @GetMapping("user/{userId}/delete")
+    public String deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return "redirect:/admin/user/list";
+    }
 }

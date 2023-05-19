@@ -57,4 +57,8 @@ public class UserService {
         user.setRoles(roles);
         updateUser(user);
     }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
 }

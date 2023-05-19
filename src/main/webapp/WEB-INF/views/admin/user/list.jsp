@@ -82,7 +82,7 @@
                       <a href="<c:url value="/admin/user/${user.id}/toggle-activity"/>">
                         ${user.active == true ? "Zablokuj" : "Odblokuj"}
                       </a>
-                      <a href="<c:url value="/admin/user/${user.id}/edit"/>">Edytuj </a>
+                      <a class="delete" data-toggle="modal" data-target="#staticBackdrop" href="<c:url value="/admin/user/${user.id}/delete"/>">Usuń</a>
                     </div>
                   </div>
                 </li>
@@ -109,6 +109,26 @@
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>
 </a>
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Jesteś pewien?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Czy na pewno chcesz usunąć tego użytkownika?
+      </div>
+      <div id="modalFooter" class="modal-footer">
+        <a href="" type="button" class="confirm-delete btn btn-primary">Tak</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Bootstrap core JavaScript-->
 <script src="<c:url value="/resources/vendor/jquery/jquery.min.js"/>"></script>
