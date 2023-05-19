@@ -33,7 +33,7 @@ public class AdminController {
     public String adminDashboard(@AuthenticationPrincipal CurrentUser currentUser,
                                  Model model) {
         User user = currentUser.getUser();
-        model.addAttribute("user", user);
+        model.addAttribute("currentUser", user);
         return "admin/dashboard";
     }
 
@@ -128,4 +128,9 @@ public class AdminController {
         return "admin/user/edit";
     }
 
+    @PostMapping("/user/{userId}/edit")
+    public String editUser(User user) {
+        userService.updateUser(user);
+        return "redirect:/admin/user/list";
+    }
 }
