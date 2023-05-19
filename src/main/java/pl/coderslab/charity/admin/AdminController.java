@@ -113,4 +113,11 @@ public class AdminController {
         userService.addAdminRights(id);
         return "redirect:/admin/administrator/user-list";
     }
+
+    @GetMapping("/user/list")
+    public String listOfUsers(Model model) {
+        List<User> allUsers = userService.getAllUsers();
+        model.addAttribute("users", allUsers);
+        return "admin/user/list";
+    }
 }
