@@ -120,4 +120,12 @@ public class AdminController {
         model.addAttribute("users", allUsers);
         return "admin/user/list";
     }
+
+    @GetMapping("/user/{userId}/edit")
+    public String editUserForm(Model model, @PathVariable Long userId) {
+        User user = userService.getUserById(userId);
+        model.addAttribute("user", user);
+        return "admin/user/edit";
+    }
+
 }
