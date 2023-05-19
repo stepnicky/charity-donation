@@ -29,4 +29,10 @@ public class User {
     @NotNull
     @ManyToMany
     private List<Role> roles;
+    private boolean isActive;
+
+    @PrePersist
+    public void activateUser() {
+        isActive = true;
+    }
 }

@@ -79,7 +79,9 @@
                     </div>
                     <div class="col-3">
                       <a href="<c:url value="/admin/user/${user.id}/edit"/>">Edytuj </a>
-                      <a href="<c:url value="/admin/user/${user.id}/block"/>">Edytuj </a>
+                      <a href="<c:url value="/admin/user/${user.id}/toggle-activity"/>">
+                        ${user.active == true ? "Zablokuj" : "Odblokuj"}
+                      </a>
                       <a href="<c:url value="/admin/user/${user.id}/edit"/>">Edytuj </a>
                     </div>
                   </div>

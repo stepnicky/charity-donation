@@ -133,4 +133,12 @@ public class AdminController {
         userService.updateUser(user);
         return "redirect:/admin/user/list";
     }
+
+    @GetMapping("/user/{userId}/toggle-activity")
+    public String toggleUserActivity(@PathVariable Long userId) {
+        User user = userService.getUserById(userId);
+        user.setActive(!user.isActive());
+        userService.updateUser(user);
+        return "redirect:/admin/user/list";
+    }
 }
