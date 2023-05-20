@@ -1,6 +1,7 @@
 package pl.coderslab.charity.user;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,13 +20,16 @@ public class UserController {
     private final UserService userService;
     private final RoleService roleService;
     private final DonationService donationService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserController(UserService userService,
                           RoleService roleService,
-                          DonationService donationService) {
+                          DonationService donationService,
+                          BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
         this.donationService = donationService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping("/register")
@@ -113,7 +117,23 @@ public class UserController {
     }
 
     @GetMapping("/user/password/change")
-    public String changePassword() {
+    public String changePasswordForm() {
         return "user/password-change";
+    }
+
+    @PostMapping("/user/password/change")
+    public String changePassword(@RequestParam String newPassword,
+                                 @RequestParam String oldPassword,
+                                 @AuthenticationPrincipal
+                                 CurrentUser currentUser,
+                                 Model model) {
+        User user = currentUser.getUser();
+        if(!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
+            model.addAttribute("errorMessage", "Podałeś nieprawidłowe hasło");
+            return "user/password-change";
+        }
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        userService.updateUser(user);
+        return "redirect:/user/profile";
     }
 }

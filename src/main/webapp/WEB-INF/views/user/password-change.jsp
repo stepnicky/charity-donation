@@ -18,8 +18,9 @@
       <input type="password" name="newPassword" placeholder="Nowe hasło"/>
     </div>
     <div class="form-group">
-      <input type="password" name="password" placeholder="Dotychczasowe hasło"/>
+      <input type="password" name="oldPassword" placeholder="Dotychczasowe hasło"/>
     </div>
+    <h3>${errorMessage}</h3>
     <div class="form-group form-group--buttons">
       <button class="btn" type="submit">Zatwierdź</button>
     </div>
