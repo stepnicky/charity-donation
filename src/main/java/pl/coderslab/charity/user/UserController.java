@@ -97,4 +97,18 @@ public class UserController {
         model.addAttribute("user", user);
         return "user/edit-profile";
     }
+
+    @PostMapping("/user/profile/edit")
+    public String editUserData(User user,
+                               @AuthenticationPrincipal
+                               CurrentUser currentUser) {
+        User userToUpdate = currentUser.getUser();
+        user.setId(userToUpdate.getId());
+        user.setActive(userToUpdate.isActive());
+        user.setPassword(userToUpdate.getPassword());
+        user.setRoles(userToUpdate.getRoles());
+        userService.updateUser(user);
+        currentUser.setUser(user);
+        return "redirect:/user/profile";
+    }
 }
