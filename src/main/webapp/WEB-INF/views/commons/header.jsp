@@ -19,7 +19,7 @@
                 <li class="logged-user">
                     Witaj ${userName}
                     <ul class="dropdown">
-                        <li><a href="#">Profil</a></li>
+                        <li><a href="<c:url value="/user/profile"/>">Profil</a></li>
                         <li><a href="#">Moje zbiórki</a></li>
                         <sec:authorize access="hasRole('ADMIN')">
                             <li><a href="<c:url value="/admin"/>">Panel administracyjny</a></li>
@@ -31,7 +31,12 @@
         </ul>
 
         <ul>
-            <li><a href="#" class="btn btn--without-border active">Start</a></li>
+            <sec:authorize access="isAnonymous()">
+                <li><a href="<c:url value="/"/>" class="btn btn--without-border active">Start</a></li>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <li><a href="<c:url value="/user"/>" class="btn btn--without-border active">Start</a></li>
+            </sec:authorize>
             <li><a href="#" class="btn btn--without-border">O co chodzi?</a></li>
             <li><a href="#" class="btn btn--without-border">O nas</a></li>
             <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>

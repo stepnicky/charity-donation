@@ -79,4 +79,13 @@ public class UserController {
         model.addAttribute("userName", user.getFirstName());
         return "index";
     }
+
+    @GetMapping("/user/profile")
+    public String userProfile(Model model,
+                              @AuthenticationPrincipal
+                              CurrentUser currentUser) {
+        User user = currentUser.getUser();
+        model.addAttribute("user", user);
+        return "user/profile";
+    }
 }
