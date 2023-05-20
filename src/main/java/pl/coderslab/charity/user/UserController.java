@@ -88,4 +88,13 @@ public class UserController {
         model.addAttribute("user", user);
         return "user/profile";
     }
+
+    @GetMapping("/user/profile/edit")
+    public String editUserDataForm(Model model,
+                                   @AuthenticationPrincipal
+                                   CurrentUser currentUser) {
+        User user = currentUser.getUser();
+        model.addAttribute("user", user);
+        return "user/edit-profile";
+    }
 }
