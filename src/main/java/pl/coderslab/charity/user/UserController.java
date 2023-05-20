@@ -111,4 +111,9 @@ public class UserController {
         currentUser.setUser(user);
         return "redirect:/user/profile";
     }
+
+    @GetMapping("/user/password/change")
+    public String changePassword() {
+        return "user/password-change";
+    }
 }
