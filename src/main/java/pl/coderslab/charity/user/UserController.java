@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.donation.DonationService;
+import pl.coderslab.charity.email.EmailService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -21,15 +22,17 @@ public class UserController {
     private final RoleService roleService;
     private final DonationService donationService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final EmailService emailService;
 
     public UserController(UserService userService,
                           RoleService roleService,
                           DonationService donationService,
-                          BCryptPasswordEncoder bCryptPasswordEncoder) {
+                          BCryptPasswordEncoder bCryptPasswordEncoder, EmailService emailService) {
         this.userService = userService;
         this.roleService = roleService;
         this.donationService = donationService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.emailService = emailService;
     }
 
     @GetMapping("/register")
@@ -63,7 +66,9 @@ public class UserController {
         roles.add(userRole);
         user.setRoles(roles);
         userService.createUser(user);
-        model.addAttribute("successMessage", "Użytkownik został pomyślnie zarejestrowany");
+        String successMessage = "Użytkownik został pomyślnie zarejestrowany";
+        emailService.sendEmail(user.getEmail(), "Potwierdzenie rejestracji", successMessage);
+        model.addAttribute("successMessage", successMessage);
         model.addAttribute("user", new User());
         return "user/registration-form";
     }
