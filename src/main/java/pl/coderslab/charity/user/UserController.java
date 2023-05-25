@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.donation.DonationService;
 import pl.coderslab.charity.email.EmailService;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +48,7 @@ public class UserController {
     public String processRegistration(@Valid User user,
                                       BindingResult result,
                                       @RequestParam("password2") String password2,
-                                      Model model) {
+                                      Model model) throws MessagingException, GeneralSecurityException, IOException {
         User userExists = userService.getUserByEmail(user.getEmail());
         if (userExists != null) {
             result.rejectValue(
