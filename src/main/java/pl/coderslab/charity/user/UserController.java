@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.donation.DonationService;
@@ -69,15 +70,15 @@ public class UserController {
         roles.add(userRole);
         user.setRoles(roles);
         userService.createUser(user);
-        String successMessage = "Użytkownik został pomyślnie zarejestrowany";
-        emailService.sendEmail(user.getEmail(), "Potwierdzenie rejestracji", successMessage);
+        emailService.sendEmail(user.getEmail(), "Charity-donation - kliknij w link potwierdzający", String.format("http://localhost:8080/confirm-registration/%s", user.getId()));
+        String successMessage = "Potwierdź swoje dane klikając w link wysłany na Twojego e-maila";
         model.addAttribute("successMessage", successMessage);
         model.addAttribute("user", new User());
         return "user/registration-form";
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
         return "user/login";
     }
 
@@ -143,5 +144,14 @@ public class UserController {
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
         userService.updateUser(user);
         return "redirect:/user/profile";
+    }
+
+    @GetMapping("/confirm-registration/{userId}")
+    public String confirmRegistration(@PathVariable Long userId, Model model) {
+        User user = userService.getUserById(userId);
+        user.setActive(true);
+        userService.updateUser(user);
+        model.addAttribute("accountActivated", "Użytkownik został zweryfikowany!");
+        return "user/login";
     }
 }

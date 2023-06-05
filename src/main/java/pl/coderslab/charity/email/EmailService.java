@@ -23,6 +23,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
 @Service
 public class EmailService {
 
-    private static final String APP_EMAIL = "charity-donation12345@gmail.com";
+    private static final String APP_EMAIL = "charity.donation12345@gmail.com";
     private final Gmail service;
 
     public EmailService() throws Exception {
@@ -46,7 +47,7 @@ public class EmailService {
             throws IOException {
         // Load client secrets.
         GoogleClientSecrets clientSecrets =
-                GoogleClientSecrets.load(jsonFactory, new InputStreamReader(EmailService.class.getResourceAsStream("/client")));
+                GoogleClientSecrets.load(jsonFactory, new InputStreamReader(Objects.requireNonNull(EmailService.class.getResourceAsStream("/client_secret_1092735760879-tlskr3a8oqrn19sf7oeo8fi6tb615ipn.apps.googleusercontent.com.json"))));
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
@@ -54,7 +55,7 @@ public class EmailService {
                 .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8080).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 

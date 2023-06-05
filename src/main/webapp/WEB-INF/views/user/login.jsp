@@ -13,6 +13,7 @@
 
   <section class="login-page">
       <h2>Zaloguj się</h2>
+      <h3>${accountActivated}</h3>
       <h3>${errorMessage}</h3>
       <form method="post" action="/login">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
