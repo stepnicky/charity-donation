@@ -13,7 +13,6 @@ import pl.coderslab.charity.donation.DonationService;
 import pl.coderslab.charity.email.EmailService;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -29,16 +28,20 @@ public class UserController {
     private final DonationService donationService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailService emailService;
+    private final PasswordTokenRepository passwordTokenRepository;
 
     public UserController(UserService userService,
                           RoleService roleService,
                           DonationService donationService,
-                          BCryptPasswordEncoder bCryptPasswordEncoder, EmailService emailService) {
+                          BCryptPasswordEncoder bCryptPasswordEncoder,
+                          EmailService emailService,
+                          PasswordTokenRepository passwordTokenRepository) {
         this.userService = userService;
         this.roleService = roleService;
         this.donationService = donationService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.emailService = emailService;
+        this.passwordTokenRepository = passwordTokenRepository;
     }
 
     @GetMapping("/register")
@@ -176,5 +179,32 @@ public class UserController {
         String successMessage = "Link do resetu hasła został wysłany na Twój adres email!";
         model.addAttribute("successMessage", successMessage);
         return "user/reset-password";
+    }
+
+    @GetMapping("/change-password")
+    public String setNewPasswordForm(@RequestParam String token, Model model) {
+        boolean validToken = userService.validatePasswordResetToken(token);
+        if (!validToken) {
+            model.addAttribute("errorMessage", "Link do resetu hasła wygasł...");
+        }
+        return "user/new-password";
+    }
+
+    @PostMapping("/change-password")
+    public String setNewPassword(@RequestParam String token,
+                                 @RequestParam String newPassword,
+                                 @RequestParam String rePassword,
+                                 Model model) {
+        PasswordResetToken passwordResetToken = passwordTokenRepository.getByToken(token);
+        User user = passwordResetToken.getUser();
+        if (newPassword.equals(rePassword)) {
+            user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+            userService.updateUser(user);
+            model.addAttribute("successMessage", "Twoje hasło zostało zmienione!");
+            return "user/login";
+        } else {
+            model.addAttribute("errorMessage", "Oba hasła muszą być jednakowe!");
+            return "user/new-password";
+        }
     }
 }

@@ -70,4 +70,9 @@ public class UserService {
         passwordTokenRepository.save(myToken);
     }
 
+    public boolean validatePasswordResetToken(String token) {
+        PasswordResetToken passToken = passwordTokenRepository.getByToken(token);
+        return passToken != null;
+    }
+
 }
