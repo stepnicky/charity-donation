@@ -13,11 +13,13 @@ import pl.coderslab.charity.donation.DonationService;
 import pl.coderslab.charity.email.EmailService;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class UserController {
@@ -153,5 +155,26 @@ public class UserController {
         userService.updateUser(user);
         model.addAttribute("accountActivated", "Użytkownik został zweryfikowany!");
         return "user/login";
+    }
+
+    @GetMapping("/reset-password")
+    public String resetPasswordForm() {
+        return "user/reset-password";
+    }
+
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam String email, Model model) throws MessagingException, GeneralSecurityException, IOException {
+        User user = userService.getUserByEmail(email);
+        if (user == null) {
+            model.addAttribute("errorMessage", "Brak użytkownika o podanym adresie email");
+            return "user/reset-password";
+        }
+
+        String token = UUID.randomUUID().toString();
+        userService.createPasswordResetToken(user, token);
+        emailService.sendEmail(email, "Charity-donation - reset hasła (kliknij w link w wiadomości)", String.format("http://localhost:8080/change-password?token=%s", token));
+        String successMessage = "Link do resetu hasła został wysłany na Twój adres email!";
+        model.addAttribute("successMessage", successMessage);
+        return "user/reset-password";
     }
 }
