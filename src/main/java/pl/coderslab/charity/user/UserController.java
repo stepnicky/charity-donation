@@ -75,6 +75,13 @@ public class UserController {
             );
             return "user/registration-form";
         }
+
+        boolean validPassword = userService.validatePassword(user.getPassword());
+        if (!validPassword) {
+            result.rejectValue("password", "password.invalid");
+            return "user/registration-form";
+        }
+
         List<Role> roles = new ArrayList<>();
         Role userRole = roleService.getRoleByRole("ROLE_USER");
         roles.add(userRole);

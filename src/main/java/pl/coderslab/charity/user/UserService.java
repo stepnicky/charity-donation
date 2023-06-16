@@ -4,9 +4,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService {
+
+    private static final String PASS_LENGTH = ".{8,}";
+    private static final String PASS_UPPERCASE = "[A-Z]+";
+    private static final String PASS_LOWERCASE = "[a-z]+";
+    private static final String PASS_DIGIT = "\\d+";
+    private static final String PASS_SPECIAL = "\\W+";
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -85,6 +92,23 @@ public class UserService {
 
     public boolean validateAccountActivationToken(String token) {
         return activationTokenRepository.getByToken(token) != null;
+    }
+
+    public boolean validatePassword(String password) {
+
+        Pattern lengthPattern = Pattern.compile(PASS_LENGTH);
+        Pattern uppercasePattern = Pattern.compile(PASS_UPPERCASE);
+        Pattern lowercasePattern = Pattern.compile(PASS_LOWERCASE);
+        Pattern digitPattern = Pattern.compile(PASS_DIGIT);
+        Pattern specialPattern = Pattern.compile(PASS_SPECIAL);
+
+        boolean lengthMatch = lengthPattern.matcher(password).matches();
+        boolean uppercaseMatch = uppercasePattern.matcher(password).find();
+        boolean lowercaseMatch = lowercasePattern.matcher(password).find();
+        boolean digitMatch = digitPattern.matcher(password).find();
+        boolean specialMatch = specialPattern.matcher(password).find();
+
+        return lengthMatch && uppercaseMatch && lowercaseMatch && digitMatch && specialMatch;
     }
 
 }
