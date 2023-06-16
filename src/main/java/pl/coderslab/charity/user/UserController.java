@@ -6,13 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.coderslab.charity.donation.DonationService;
 import pl.coderslab.charity.email.EmailService;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -29,19 +30,22 @@ public class UserController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailService emailService;
     private final PasswordTokenRepository passwordTokenRepository;
+    private final ActivationTokenRepository activationTokenRepository;
 
     public UserController(UserService userService,
                           RoleService roleService,
                           DonationService donationService,
                           BCryptPasswordEncoder bCryptPasswordEncoder,
                           EmailService emailService,
-                          PasswordTokenRepository passwordTokenRepository) {
+                          PasswordTokenRepository passwordTokenRepository,
+                          ActivationTokenRepository activationTokenRepository) {
         this.userService = userService;
         this.roleService = roleService;
         this.donationService = donationService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.emailService = emailService;
         this.passwordTokenRepository = passwordTokenRepository;
+        this.activationTokenRepository = activationTokenRepository;
     }
 
     @GetMapping("/register")
@@ -54,7 +58,8 @@ public class UserController {
     public String processRegistration(@Valid User user,
                                       BindingResult result,
                                       @RequestParam("password2") String password2,
-                                      Model model) throws MessagingException, GeneralSecurityException, IOException {
+                                      Model model,
+                                      HttpServletRequest request) throws MessagingException, GeneralSecurityException, IOException {
         User userExists = userService.getUserByEmail(user.getEmail());
         if (userExists != null) {
             result.rejectValue(
@@ -75,7 +80,13 @@ public class UserController {
         roles.add(userRole);
         user.setRoles(roles);
         userService.createUser(user);
-        emailService.sendEmail(user.getEmail(), "Charity-donation - kliknij w link potwierdzający", String.format("http://localhost:8080/confirm-registration/%s", user.getId()));
+        String token = UUID.randomUUID().toString();
+        userService.createAccountActivationToken(user, token);
+        String baseUrl = ServletUriComponentsBuilder.fromRequestUri(request)
+                        .replacePath(null)
+                        .build()
+                        .toUriString();
+        emailService.sendEmail(user.getEmail(), "Charity-donation - kliknij w link potwierdzający", String.format("%s/confirm-registration?token=%s", baseUrl, token));
         String successMessage = "Potwierdź swoje dane klikając w link wysłany na Twojego e-maila";
         model.addAttribute("successMessage", successMessage);
         model.addAttribute("user", new User());
@@ -151,9 +162,15 @@ public class UserController {
         return "redirect:/user/profile";
     }
 
-    @GetMapping("/confirm-registration/{userId}")
-    public String confirmRegistration(@PathVariable Long userId, Model model) {
-        User user = userService.getUserById(userId);
+    @GetMapping("/confirm-registration")
+    public String confirmRegistration(@RequestParam String token, Model model) {
+        boolean validToken = userService.validateAccountActivationToken(token);
+        if (!validToken) {
+            model.addAttribute("errorMessage", "Link aktywacyjny wygasł");
+            return "user/login";
+        }
+        AccountActivationToken activationToken = activationTokenRepository.getByToken(token);
+        User user = activationToken.getUser();
         user.setActive(true);
         userService.updateUser(user);
         model.addAttribute("accountActivated", "Użytkownik został zweryfikowany!");
@@ -166,7 +183,9 @@ public class UserController {
     }
 
     @PostMapping("/reset-password")
-    public String resetPassword(@RequestParam String email, Model model) throws MessagingException, GeneralSecurityException, IOException {
+    public String resetPassword(@RequestParam String email,
+                                Model model,
+                                HttpServletRequest request) throws MessagingException, GeneralSecurityException, IOException {
         User user = userService.getUserByEmail(email);
         if (user == null) {
             model.addAttribute("errorMessage", "Brak użytkownika o podanym adresie email");
@@ -175,7 +194,11 @@ public class UserController {
 
         String token = UUID.randomUUID().toString();
         userService.createPasswordResetToken(user, token);
-        emailService.sendEmail(email, "Charity-donation - reset hasła (kliknij w link w wiadomości)", String.format("http://localhost:8080/change-password?token=%s", token));
+        String baseUrl = ServletUriComponentsBuilder.fromRequestUri(request)
+                .replacePath(null)
+                .build()
+                .toUriString();
+        emailService.sendEmail(email, "Charity-donation - reset hasła (kliknij w link w wiadomości)", String.format("%s/change-password?token=%s", baseUrl, token));
         String successMessage = "Link do resetu hasła został wysłany na Twój adres email!";
         model.addAttribute("successMessage", successMessage);
         return "user/reset-password";

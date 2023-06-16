@@ -12,15 +12,18 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleService roleService;
     private final PasswordTokenRepository passwordTokenRepository;
+    private final ActivationTokenRepository activationTokenRepository;
 
     public UserService(UserRepository userRepository,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
                        RoleService roleService,
-                       PasswordTokenRepository passwordTokenRepository) {
+                       PasswordTokenRepository passwordTokenRepository,
+                       ActivationTokenRepository activationTokenRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.roleService = roleService;
         this.passwordTokenRepository = passwordTokenRepository;
+        this.activationTokenRepository = activationTokenRepository;
     }
 
     public void createUser(User user) {
@@ -73,6 +76,15 @@ public class UserService {
     public boolean validatePasswordResetToken(String token) {
         PasswordResetToken passToken = passwordTokenRepository.getByToken(token);
         return passToken != null;
+    }
+
+    public void createAccountActivationToken(User user, String token) {
+        AccountActivationToken activationToken = new AccountActivationToken(user, token);
+        activationTokenRepository.save(activationToken);
+    }
+
+    public boolean validateAccountActivationToken(String token) {
+        return activationTokenRepository.getByToken(token) != null;
     }
 
 }
