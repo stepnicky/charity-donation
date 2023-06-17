@@ -143,7 +143,16 @@ public class AdminController {
     }
 
     @GetMapping("user/{userId}/delete")
-    public String deleteUser(@PathVariable Long userId) {
+    public String deleteUser(@PathVariable Long userId,
+                             @AuthenticationPrincipal CurrentUser currentUser,
+                             Model model) {
+        User user = currentUser.getUser();
+        if (user.getId().equals(userId)) {
+            List<User> allUsers = userService.getAllUsers();
+            model.addAttribute("users", allUsers);
+            model.addAttribute("actionDenied", "Nie możesz usunąć samego/samej siebie!");
+            return "admin/user/list";
+        }
         userService.deleteUser(userId);
         return "redirect:/admin/user/list";
     }

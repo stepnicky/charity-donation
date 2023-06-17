@@ -39,8 +39,6 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-<%--          <a href="<c:url value="/admin/user/"/>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">--%>
-<%--            <i class="fas fa-duotone fa-user-plus text-white-50"></i> Nadaj/odbierz uprawnienia administratora</a>--%>
         </div>
 
         <div class="card shadow mb-4">
@@ -88,6 +86,12 @@
                 </li>
               </c:forEach>
             </ul>
+            <div class="row">
+              <div class="col-9"></div>
+              <div class="col-3">
+                ${actionDenied}
+              </div>
+            </div>
           </div>
         </div>
 
